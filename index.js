@@ -1,6 +1,7 @@
 import {h, renderToString} from 'ink';
 import PropTypes from 'prop-types';
 import gradientString from 'gradient-string';
+import stripAnsi from 'strip-ansi';
 
 const Gradient = props => {
 	if (props.name && props.colors) {
@@ -9,7 +10,7 @@ const Gradient = props => {
 
 	const gradient = props.name ? gradientString[props.name] : gradientString(props.colors);
 	const text = renderToString(<span>{props.children}</span>);
-	return <span>{gradient.multiline(text)}</span>;
+	return <span>{gradient.multiline(stripAnsi(text))}</span>;
 };
 
 Gradient.propTypes = {

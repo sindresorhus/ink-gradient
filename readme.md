@@ -15,25 +15,17 @@ $ npm install ink-gradient
 ## Usage
 
 ```js
-const {h, render} = require('ink');
-const Gradient = require('ink-gradient');
+import {h, render} = from 'ink';
+import Gradient from 'ink-gradient';
+import BigText from 'ink-big-text';
 
 render(
 	<div>
 		<Gradient name="rainbow">
-			{`
-
-	██╗   ██╗ ███╗   ██╗ ██╗  ██████╗  ██████╗  ██████╗  ███╗   ██╗ ███████╗
-	██║   ██║ ████╗  ██║ ██║ ██╔════╝ ██╔═══██╗ ██╔══██╗ ████╗  ██║ ██╔════╝
-	██║   ██║ ██╔██╗ ██║ ██║ ██║      ██║   ██║ ██████╔╝ ██╔██╗ ██║ ███████╗
-	██║   ██║ ██║╚██╗██║ ██║ ██║      ██║   ██║ ██╔══██╗ ██║╚██╗██║ ╚════██║
-	╚██████╔╝ ██║ ╚████║ ██║ ╚██████╗ ╚██████╔╝ ██║  ██║ ██║ ╚████║ ███████║
-
-			`}
+			<BigText text="unicorns"/>
 		</Gradient>
 	</div>
 );
-//=>
 ```
 
 
@@ -61,6 +53,7 @@ Type: `string[]` `Object[]`
 ## Related
 
 - [ink-box](https://github.com/sindresorhus/ink-box) - Box component for Ink
+- [ink-big-text](https://github.com/sindresorhus/ink-big-text) - Awesome text component for Ink
 - [ink-link](https://github.com/sindresorhus/ink-link) - Link component for Ink
 
 
