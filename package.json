@@ -1,6 +1,6 @@
 {
 	"name": "ink-gradient",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Gradient color component for Ink",
 	"license": "MIT",
 	"repository": "sindresorhus/ink-gradient",
