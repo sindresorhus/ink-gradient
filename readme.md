@@ -15,7 +15,7 @@ $ npm install ink-gradient
 ## Usage
 
 ```js
-import {h, render} = from 'ink';
+import {h, render} from 'ink';
 import Gradient from 'ink-gradient';
 import BigText from 'ink-big-text';
 
