@@ -1,5 +1,6 @@
+import React from 'react';
 import {serial as test} from 'ava';
-import {h, renderToString} from 'ink';
+import {renderToString} from 'ink';
 import clearModule from 'clear-module';
 import stripAnsi from 'strip-ansi';
 
