@@ -1,4 +1,5 @@
-import {h, renderToString} from 'ink';
+import React from 'react';
+import {Text} from 'ink';
 import PropTypes from 'prop-types';
 import gradientString from 'gradient-string';
 import stripAnsi from 'strip-ansi';
@@ -9,8 +10,9 @@ const Gradient = props => {
 	}
 
 	const gradient = props.name ? gradientString[props.name] : gradientString(props.colors);
-	const text = renderToString(<span>{props.children}</span>);
-	return <span>{gradient.multiline(stripAnsi(text))}</span>;
+	const applyGradient = text => gradient.multiline(stripAnsi(text));
+
+	return <Text unstable__transformChildren={applyGradient}>{props.children}</Text>;
 };
 
 Gradient.propTypes = {
