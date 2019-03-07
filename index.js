@@ -16,7 +16,10 @@ const Gradient = props => {
 };
 
 Gradient.propTypes = {
-	children: PropTypes.any.isRequired,
+	children: PropTypes.oneOfType([
+		PropTypes.arrayOf(PropTypes.node),
+		PropTypes.node
+	]).isRequired,
 	name: PropTypes.oneOf([
 		'cristal',
 		'teen',

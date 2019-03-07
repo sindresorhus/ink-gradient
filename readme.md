@@ -15,16 +15,15 @@ $ npm install ink-gradient
 ## Usage
 
 ```js
-import {h, render} from 'ink';
+import React from 'react';
+import {render} from 'ink';
 import Gradient from 'ink-gradient';
 import BigText from 'ink-big-text';
 
 render(
-	<div>
-		<Gradient name="rainbow">
-			<BigText text="unicorns"/>
-		</Gradient>
-	</div>
+	<Gradient name="rainbow">
+		<BigText text="unicorns"/>
+	</Gradient>
 );
 ```
 
@@ -45,7 +44,7 @@ Name of a [built-in gradient](https://github.com/bokub/gradient-string#available
 
 ##### colors
 
-Type: `string[]` `Object[]`
+Type: `string[] | Object[]`
 
 [Colors to use to make the gradient.](https://github.com/bokub/gradient-string#initialize-a-gradient)
 
