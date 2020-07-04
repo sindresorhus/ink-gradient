@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text} from 'ink';
+import {Transform} from 'ink';
 import PropTypes from 'prop-types';
 import gradientString from 'gradient-string';
 import stripAnsi from 'strip-ansi';
@@ -12,7 +12,7 @@ const Gradient = props => {
 	const gradient = props.name ? gradientString[props.name] : gradientString(props.colors);
 	const applyGradient = text => gradient.multiline(stripAnsi(text));
 
-	return <Text unstable__transformChildren={applyGradient}>{props.children}</Text>;
+	return <Transform transform={applyGradient}>{props.children}</Transform>;
 };
 
 Gradient.propTypes = {
