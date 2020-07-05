@@ -4,7 +4,7 @@
 
 ![](screenshot.png)
 
-**Note:** Looking for a version compatible with Ink 2.x? Check out [this release](https://github.com/sindresorhus/ink-gradient/tree/v1.0.0).
+Looking for a version compatible with Ink 2.x? Check out [this release](https://github.com/sindresorhus/ink-gradient/tree/v1.0.0).
 
 
 ## Install
