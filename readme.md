@@ -1,4 +1,4 @@
-# ink-gradient [![Build Status](https://travis-ci.org/sindresorhus/ink-gradient.svg?branch=master)](https://travis-ci.org/sindresorhus/ink-gradient)
+# ink-gradient [![Build Status](https://travis-ci.com/sindresorhus/ink-gradient.svg?branch=master)](https://travis-ci.com/github/sindresorhus/ink-gradient)
 
 > Gradient color component for [Ink](https://github.com/vadimdemedes/ink)
 
@@ -6,13 +6,11 @@
 
 Looking for a version compatible with Ink 2.x? Check out [this release](https://github.com/sindresorhus/ink-gradient/tree/v1.0.0).
 
-
 ## Install
 
 ```
 $ npm install ink-gradient
 ```
-
 
 ## Usage
 
@@ -28,7 +26,6 @@ render(
 	</Gradient>
 );
 ```
-
 
 ## API
 
@@ -46,18 +43,12 @@ Name of a [built-in gradient](https://github.com/bokub/gradient-string#available
 
 ##### colors
 
-Type: `string[] | Object[]`
+Type: `string[] | object[]`
 
 [Colors to use to make the gradient.](https://github.com/bokub/gradient-string#initialize-a-gradient)
-
 
 ## Related
 
 - [ink-box](https://github.com/sindresorhus/ink-box) - Box component for Ink
 - [ink-big-text](https://github.com/sindresorhus/ink-big-text) - Awesome text component for Ink
 - [ink-link](https://github.com/sindresorhus/ink-link) - Link component for Ink
-
-
-## License
-
-MIT © [Sindre Sorhus](https://sindresorhus.com)

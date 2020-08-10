@@ -16,7 +16,7 @@ test('render', t => {
 		██║   ██║ ██╔██╗ ██║ ██║ ██║      ██║   ██║ ██████╔╝ ██╔██╗ ██║ ███████╗
 		██║   ██║ ██║╚██╗██║ ██║ ██║      ██║   ██║ ██╔══██╗ ██║╚██╗██║ ╚════██║
 		╚██████╔╝ ██║ ╚████║ ██║ ╚██████╗ ╚██████╔╝ ██║  ██║ ██║ ╚████║ ███████║
-	`.trim().split('\n').map(line => line.trimLeft()).join('\n');
+	`.trim().split('\n').map(line => line.trimStart()).join('\n');
 
 	const {lastFrame} = render(
 		<Gradient name="rainbow">
