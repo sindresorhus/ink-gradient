@@ -1,4 +1,4 @@
-# ink-gradient [![Build Status](https://travis-ci.com/sindresorhus/ink-gradient.svg?branch=master)](https://travis-ci.com/github/sindresorhus/ink-gradient)
+# ink-gradient
 
 > Gradient color component for [Ink](https://github.com/vadimdemedes/ink)
 
