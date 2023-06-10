@@ -1,14 +1,13 @@
+import process from 'node:process';
 import React from 'react';
-import {serial as test} from 'ava';
+import test from 'ava';
 import {Text} from 'ink';
 import {render} from 'ink-testing-library';
-import clearModule from 'clear-module';
 import stripAnsi from 'strip-ansi';
+import Gradient from './source/index.js';
 
 test('render', t => {
 	process.env.FORCE_COLOR = 1;
-	clearModule('.');
-	const Gradient = require('.');
 
 	const text = `
 		██╗   ██╗ ███╗   ██╗ ██╗  ██████╗  ██████╗  ██████╗  ███╗   ██╗ ███████╗
@@ -19,9 +18,9 @@ test('render', t => {
 	`.trim().split('\n').map(line => line.trimStart()).join('\n');
 
 	const {lastFrame} = render(
-		<Gradient name="rainbow">
+		<Gradient name='rainbow'>
 			<Text>{text}</Text>
-		</Gradient>
+		</Gradient>,
 	);
 
 	console.log(lastFrame());

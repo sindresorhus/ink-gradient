@@ -4,12 +4,10 @@
 
 ![](screenshot.png)
 
-Looking for a version compatible with Ink 2.x? Check out [this release](https://github.com/sindresorhus/ink-gradient/tree/v1.0.0).
-
 ## Install
 
-```
-$ npm install ink-gradient
+```sh
+npm install ink-gradient
 ```
 
 ## Usage
@@ -31,7 +29,7 @@ render(
 
 ### `<Gradient>`
 
-It accepts a string or Ink component as `children`, for example, [`ink-box`](https://github.com/sindresorhus/ink-box).
+It accepts a string or Ink component as `children`. For example, [`<Box/>`](https://github.com/vadimdemedes/ink#box).
 
 #### Props
 
@@ -39,7 +37,9 @@ It accepts a string or Ink component as `children`, for example, [`ink-box`](htt
 
 Type: `string`
 
-Name of a [built-in gradient](https://github.com/bokub/gradient-string#available-built-in-gradients).
+The name of a [built-in gradient](https://github.com/bokub/gradient-string#available-built-in-gradients).
+
+Mutually exclusive with `colors`.
 
 ##### colors
 
@@ -47,8 +47,9 @@ Type: `string[] | object[]`
 
 [Colors to use to make the gradient.](https://github.com/bokub/gradient-string#initialize-a-gradient)
 
+Mutually exclusive with `name`.
+
 ## Related
 
-- [ink-box](https://github.com/sindresorhus/ink-box) - Box component for Ink
 - [ink-big-text](https://github.com/sindresorhus/ink-big-text) - Awesome text component for Ink
 - [ink-link](https://github.com/sindresorhus/ink-link) - Link component for Ink
