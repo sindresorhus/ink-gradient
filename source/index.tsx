@@ -1,5 +1,5 @@
-import React, {type FC as ReactFC, type ReactNode} from 'react';
-import {Transform} from 'ink';
+import React, {type FC as ReactFC, type ReactNode, type Key, Children, isValidElement, cloneElement} from 'react';
+import {Box, Transform, Text} from 'ink';
 import PropTypes, {type Validator} from 'prop-types';
 import gradientString, {type Gradient as GradientStringType} from 'gradient-string';
 import stripAnsi from 'strip-ansi';
@@ -71,7 +71,130 @@ const Gradient: ReactFC<Props> = props => { // eslint-disable-line react/functio
 
 	const applyGradient = (text: string) => gradient.multiline(stripAnsi(text));
 
-	return <Transform transform={applyGradient}>{props.children}</Transform>;
+	const containsBoxDescendant = (nodeChildren: ReactNode): boolean => {
+		let hasBox = false;
+
+		const search = (value: ReactNode) => {
+			Children.forEach(value, child => {
+				if (hasBox) {
+					return;
+				}
+
+				if (!isValidElement(child)) {
+					return;
+				}
+
+				if (child.type === Box) {
+					hasBox = true;
+					return;
+				}
+
+				const childProps = child.props as Record<string, unknown>;
+				if (Object.prototype.hasOwnProperty.call(childProps, 'children')) {
+					search(childProps['children'] as ReactNode);
+				}
+			});
+		};
+
+		search(nodeChildren);
+		return hasBox;
+	};
+
+	const hasChildrenProp = (props: Record<string, unknown>) => Object.prototype.hasOwnProperty.call(props, 'children');
+	const isPlainTextNode = (node: ReactNode): node is string | number => typeof node === 'string' || typeof node === 'number';
+	const isNonRenderableChild = (node: ReactNode) => node === null || node === undefined || typeof node === 'boolean';
+
+	// Check if children is just a string/number (simple case)
+	if (typeof props.children === 'string' || typeof props.children === 'number') {
+		return <Transform transform={applyGradient}>{props.children}</Transform>;
+	}
+
+	if (!containsBoxDescendant(props.children)) {
+		return <Transform transform={applyGradient}>{props.children}</Transform>;
+	}
+
+	// For complex children (components), apply gradient to text nodes directly
+	const applyGradientToChildren = (children: ReactNode): ReactNode => {
+		const nodes: ReactNode[] = [];
+		let bufferedText = '';
+		let nodeIndex = 0;
+
+		const createKey = () => `gradient-node-${nodeIndex++}`;
+
+		const pushTransformed = (node: ReactNode, key: Key) => {
+			nodes.push(
+				<Transform key={key} transform={applyGradient}>
+					{node}
+				</Transform>,
+			);
+		};
+
+		const flushText = () => {
+			if (bufferedText === '') {
+				return;
+			}
+
+			const text = bufferedText;
+			bufferedText = '';
+			pushTransformed(<Text>{text}</Text>, createKey());
+		};
+
+		Children.forEach(children, child => {
+			if (isNonRenderableChild(child)) {
+				return;
+			}
+
+			if (isPlainTextNode(child)) {
+				bufferedText += String(child);
+				return;
+			}
+
+			flushText();
+
+			if (isValidElement(child)) {
+				const childKey = child.key ?? createKey();
+				const childProps = child.props as Record<string, unknown>;
+
+				if (child.type === Text) {
+					pushTransformed(child, childKey);
+					return;
+				}
+
+				if (child.type === Box) {
+					if (hasChildrenProp(childProps)) {
+						const childChildren = childProps['children'] as ReactNode;
+						nodes.push(cloneElement(child, {key: childKey}, applyGradientToChildren(childChildren)));
+						return;
+					}
+
+					nodes.push(cloneElement(child, {key: childKey}));
+					return;
+				}
+
+				if (hasChildrenProp(childProps)) {
+					const childChildren = childProps['children'] as ReactNode;
+					if (!containsBoxDescendant(childChildren)) {
+						pushTransformed(child, childKey);
+						return;
+					}
+
+					nodes.push(cloneElement(child, {key: childKey}, applyGradientToChildren(childChildren)));
+					return;
+				}
+
+				pushTransformed(child, childKey);
+				return;
+			}
+
+			nodes.push(child);
+		});
+
+		flushText();
+
+		return nodes;
+	};
+
+	return <>{applyGradientToChildren(props.children)}</>;
 };
 
 Gradient.propTypes = {
