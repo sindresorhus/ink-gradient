@@ -8,6 +8,9 @@
 	],
 	"ts-node": {
 		"transpileOnly": true,
-		"files": true
+		"files": true,
+		"compilerOptions": {
+			"module": "NodeNext"
+		}
 	}
 }

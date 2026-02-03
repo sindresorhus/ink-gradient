@@ -1,7 +1,13 @@
-import React, {type FC as ReactFC, type ReactNode, type Key, Children, isValidElement, cloneElement} from 'react';
+import {
+	type FC as ReactFC,
+	type ReactNode,
+	type Key,
+	Children,
+	isValidElement,
+	cloneElement,
+} from 'react';
 import {Box, Transform, Text} from 'ink';
-import PropTypes, {type Validator} from 'prop-types';
-import gradientString, {type Gradient as GradientStringType} from 'gradient-string';
+import gradientString from 'gradient-string';
 import stripAnsi from 'strip-ansi';
 
 export type GradientName =
@@ -20,6 +26,8 @@ export type GradientName =
 	| 'rainbow';
 
 export type GradientColors = Array<string | Record<string, unknown>>;
+
+type GradientStringType = ReturnType<typeof gradientString>;
 
 export type Props = {
 	/**
@@ -71,7 +79,7 @@ const Gradient: ReactFC<Props> = props => { // eslint-disable-line react/functio
 		gradient = gradientString[props.name];
 	} else if (props.colors) {
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-		gradient = gradientString(props.colors as any); // TODO: Make stronger type.
+		gradient = gradientString(props.colors as any); // Note: `gradient-string` types are too loose to express this safely.
 	} else {
 		throw new Error('Either `name` or `colors` prop must be provided');
 	}
@@ -97,7 +105,7 @@ const Gradient: ReactFC<Props> = props => { // eslint-disable-line react/functio
 				}
 
 				const childProps = child.props as Record<string, unknown>;
-				if (Object.prototype.hasOwnProperty.call(childProps, 'children')) {
+				if (Object.hasOwn(childProps, 'children')) {
 					search(childProps['children'] as ReactNode);
 				}
 			});
@@ -107,7 +115,7 @@ const Gradient: ReactFC<Props> = props => { // eslint-disable-line react/functio
 		return hasBox;
 	};
 
-	const hasChildrenProp = (props: Record<string, unknown>) => Object.prototype.hasOwnProperty.call(props, 'children');
+	const hasChildrenProp = (props: Record<string, unknown>) => Object.hasOwn(props, 'children');
 	const isPlainTextNode = (node: ReactNode): node is string | number => typeof node === 'string' || typeof node === 'number';
 	const isNonRenderableChild = (node: ReactNode) => node === null || node === undefined || typeof node === 'boolean';
 	const childrenCount = Children.count(props.children);
@@ -130,11 +138,7 @@ const Gradient: ReactFC<Props> = props => { // eslint-disable-line react/functio
 		const createKey = () => `gradient-node-${nodeIndex++}`;
 
 		const pushTransformed = (node: ReactNode, key: Key) => {
-			nodes.push(
-				<Transform key={key} transform={applyGradient}>
-					{node}
-				</Transform>,
-			);
+			nodes.push(<Transform key={key} transform={applyGradient}>{node}</Transform>);
 		};
 
 		const flushText = () => {
@@ -203,34 +207,6 @@ const Gradient: ReactFC<Props> = props => { // eslint-disable-line react/functio
 	};
 
 	return <>{applyGradientToChildren(props.children)}</>;
-};
-
-Gradient.propTypes = {
-	children: PropTypes.oneOfType([
-		PropTypes.arrayOf(PropTypes.node),
-		PropTypes.node,
-	]).isRequired,
-	name: PropTypes.oneOf([
-		'cristal',
-		'teen',
-		'mind',
-		'morning',
-		'vice',
-		'passion',
-		'fruit',
-		'instagram',
-		'atlas',
-		'retro',
-		'summer',
-		'pastel',
-		'rainbow',
-	]),
-	colors: PropTypes.arrayOf(
-		PropTypes.oneOfType([
-			PropTypes.string,
-			PropTypes.object,
-		]),
-	) as Validator<GradientColors>,
 };
 
 export default Gradient;
