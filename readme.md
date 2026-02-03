@@ -33,6 +33,14 @@ It accepts a string or Ink component as `children`. For example, [`<Box/>`](http
 
 #### Props
 
+##### children
+
+The content to colorize.
+
+Multiple `<Text>` children are treated as separate nodes, which preserves layout when `<Gradient>` is placed inside a `<Box flexDirection="column">`.
+
+If you want a continuous gradient across multiple lines, pass a single string or a single `<Text>` with `\n`.
+
 ##### name
 
 Type: `string`

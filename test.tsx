@@ -271,6 +271,27 @@ test.serial('should not collapse Text siblings in column layout', t => {
 	delete process.env.FORCE_COLOR;
 });
 
+test.serial('should render Text siblings as separate lines when Box is outside Gradient', t => {
+	process.env.FORCE_COLOR = 1;
+
+	const {lastFrame} = render(
+		<Box flexDirection='column'>
+			<Gradient colors={['red', 'blue']}>
+				<Text>First</Text>
+				<Text>Second</Text>
+				<Text>Third</Text>
+			</Gradient>
+		</Box>,
+	);
+
+	const lines = stripAnsi(lastFrame()).split('\n');
+	t.is(lines[0].trimEnd(), 'First');
+	t.is(lines[1].trimEnd(), 'Second');
+	t.is(lines[2].trimEnd(), 'Third');
+
+	delete process.env.FORCE_COLOR;
+});
+
 test.serial('should ignore falsy children inside Text when applying gradient', t => {
 	process.env.FORCE_COLOR = 1;
 
@@ -418,7 +439,7 @@ test.serial('should ignore falsy children inside nested Box when applying gradie
 	delete process.env.FORCE_COLOR;
 });
 
-test.serial('should preserve gradient continuity for sibling Text components without Box', t => {
+test.serial('should apply gradient separately for sibling Text components without Box', t => {
 	process.env.FORCE_COLOR = 1;
 
 	const originalGradient = gradientString.retro;
@@ -443,9 +464,11 @@ test.serial('should preserve gradient continuity for sibling Text components wit
 		</Gradient>,
 	);
 
-	t.true(stripAnsi(lastFrame()).includes('__First Second__'));
-	t.is(receivedText.length, 1);
-	t.is(receivedText[0], 'First Second');
+	t.true(stripAnsi(lastFrame()).includes('__First __'));
+	t.true(stripAnsi(lastFrame()).includes('__Second__'));
+	t.is(receivedText.length, 2);
+	t.is(receivedText[0], 'First ');
+	t.is(receivedText[1], 'Second');
 
 	delete process.env.FORCE_COLOR;
 });

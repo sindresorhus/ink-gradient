@@ -22,6 +22,13 @@ export type GradientName =
 export type GradientColors = Array<string | Record<string, unknown>>;
 
 export type Props = {
+	/**
+	The content to colorize.
+
+	Multiple `<Text>` children are treated as separate nodes, which preserves layout when `<Gradient>` is placed inside a `<Box flexDirection="column">`.
+
+	If you want a continuous gradient across multiple lines, pass a single string or a single `<Text>` with `\n`.
+	*/
 	readonly children: ReactNode;
 
 	/**
@@ -103,13 +110,14 @@ const Gradient: ReactFC<Props> = props => { // eslint-disable-line react/functio
 	const hasChildrenProp = (props: Record<string, unknown>) => Object.prototype.hasOwnProperty.call(props, 'children');
 	const isPlainTextNode = (node: ReactNode): node is string | number => typeof node === 'string' || typeof node === 'number';
 	const isNonRenderableChild = (node: ReactNode) => node === null || node === undefined || typeof node === 'boolean';
+	const childrenCount = Children.count(props.children);
 
 	// Check if children is just a string/number (simple case)
-	if (typeof props.children === 'string' || typeof props.children === 'number') {
+	if (isPlainTextNode(props.children)) {
 		return <Transform transform={applyGradient}>{props.children}</Transform>;
 	}
 
-	if (!containsBoxDescendant(props.children)) {
+	if (childrenCount === 1 && !containsBoxDescendant(props.children)) {
 		return <Transform transform={applyGradient}>{props.children}</Transform>;
 	}
 
