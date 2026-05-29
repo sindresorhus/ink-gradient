@@ -53,7 +53,8 @@
 		"strip-ansi": "^7.1.2"
 	},
 	"peerDependencies": {
-		"ink": ">=6"
+		"ink": ">=6",
+		"react": ">=19.2.0"
 	},
 	"devDependencies": {
 		"@sindresorhus/tsconfig": "^8.1.0",
